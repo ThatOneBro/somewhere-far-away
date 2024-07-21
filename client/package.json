@@ -1,0 +1,19 @@
+{
+  "name": "somewhere-far-away",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bunx --bun vite",
+    "build": "bunx --bun tsc && bunx --bun vite build",
+    "preview": "bunx --bun vite preview"
+  },
+  "devDependencies": {
+    "@types/three": "^0.166.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.4"
+  },
+  "dependencies": {
+    "three": "^0.166.1"
+  }
+}
