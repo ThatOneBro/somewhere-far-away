@@ -1,0 +1,23 @@
+<svg
+  width="400px"
+  height="400px"
+  xmlns="http://www.w3.org/2000/svg"
+  colorinterpolationfilters="sRGB"
+>
+  <defs>
+    <filter id="blurMe" x="-50%" y="-50%" width="300%" height="300%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="30" />
+    </filter>
+    <!-- <filter id="blurAndMultiplyAlpha" x="-50%" y="-50%" width="300%" height="300%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+      <feColorMatrix
+        type="matrix"
+        values="1 0 0 0 0 
+          0 1 0 0 0 
+          0 0 1 0 0 
+          0 0 0 1.5 0"
+      />
+    </filter> -->
+  </defs>
+  <circle cx="200" cy="200" r="150" fill="gray" filter="url(#blurMe)" />
+</svg>
