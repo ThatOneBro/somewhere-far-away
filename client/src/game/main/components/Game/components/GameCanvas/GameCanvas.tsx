@@ -1,6 +1,7 @@
 import {
   AdaptiveDpr,
   AdaptiveEvents,
+  Environment,
   // Sky,
   PositionalAudio,
   Preload,
@@ -17,11 +18,12 @@ import GameContents from '../GameContents/GameContents';
 // import TouchHandler from '../../../TouchHandler/TouchHandler';
 
 // import SkyBox from '../../../../../elements/SkyBox/SkyBox';
-// import Player from '../../../../../player/components/Player/Player';
+import Player from '../../../../../player/components/Player/Player';
 // import Boombox from '../../../props/Boombox/Boombox';
 
 import OceanSound2 from '../../../../../../assets/sounds/ocean-wave-2.mp3';
 import OceanSound from '../../../../../../assets/sounds/ocean-waves-1.mp3';
+import SkyBox from '../../../../../elements/SkyBox/SkyBox';
 
 const StyledContainer = styled.div`
   position: fixed;
@@ -85,12 +87,12 @@ const GameCanvas = () => {
           <AdaptiveDpr pixelated />
           <AdaptiveEvents />
           <Stats className="stats-panel" parent={statsParentRef} />
-          {/* <Suspense fallback={null}>
+          <Suspense fallback={null}>
             <SkyBox />
-          </Suspense> */}
-          {/* <Suspense fallback={null}>
-            <Environment background={false} preset={null} path="/textures/hdr/" files="pool.jpg" />
-          </Suspense> */}
+          </Suspense>
+          <Suspense fallback={null}>
+            <Environment background={false} path="/textures/hdr/" files="pool.jpg" />
+          </Suspense>
           <Suspense fallback={null}>
             <group position={[0, 0, 0]}>
               <mesh position={[-52, 0, 52]}>
@@ -104,7 +106,7 @@ const GameCanvas = () => {
           <CameraProvider>
             <InputsHandler>
               <GameContents localPlayerRef={localPlayerRef} />
-              {/* {localPlayer && <Player id={localPlayer.id} local playerData={localPlayer} ref={localPlayerRef} />} */}
+              <Player />
               {/* {localPlayer &&
                 currentPlayers
                   .filter((player) => player.id !== localPlayer.id)

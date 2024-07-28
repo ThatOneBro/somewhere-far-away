@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { RootState, useFrame } from '@react-three/fiber';
 import { MutableRefObject, useRef } from 'react';
 import * as THREE from 'three';

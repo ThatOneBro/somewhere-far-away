@@ -1,8 +1,6 @@
-import React, { useCallback, useRef } from 'react';
-import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-
-import { fogParsVert, fogParsFrag, fogVert, fogFrag } from '../../../elements/Fog/fog-shaders';
+import { useCallback, useRef } from 'react';
+import * as THREE from 'three';
 import WaterTexture from '../../../../assets/images/water-texture.png';
 
 // Source of OG code: https://github.com/OmarShehata/tutsplus-toon-water/blob/master/Threejs/index.html
@@ -177,12 +175,7 @@ const uniforms = {
   uDepthMap2: { value: depthTarget2.depthTexture },
   isMask: { value: false },
   uScreenSize: {
-    value: new THREE.Vector4(
-      window.innerWidth,
-      window.innerHeight,
-      1 / window.innerWidth,
-      1 / window.innerHeight,
-    ),
+    value: new THREE.Vector4(window.innerWidth, window.innerHeight, 1 / window.innerWidth, 1 / window.innerHeight),
   },
   fogNearColor: { value: new THREE.Color(0xfc4848) },
   fogNoiseFreq: { value: 0.0012 },
@@ -208,25 +201,19 @@ const waterMaterial = new THREE.ShaderMaterial({
 });
 
 const Water = () => {
-  const waterRef = useRef(null);
+  const waterRef = useRef<THREE.Mesh>(null);
 
   const onFrame = useCallback(() => {
     if (!waterRef.current) return;
-    waterRef.current.uniforms.uTime.value += 0.1125;
-    waterRef.current.uniforms.time.value += 0.1;
+    uniforms.uTime.value += 0.075;
+    uniforms.time.value += 0.05;
     // postMaterial.uniforms.uTime.value += 0.1;
   }, []);
 
   useFrame(onFrame);
   return (
     <group rotation={[0, -Math.PI / 6, 0]}>
-      <mesh
-        material={waterMaterial}
-        uniforms={uniforms}
-        position={[0, -1, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        ref={waterRef}
-      >
+      <mesh material={waterMaterial} position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]} ref={waterRef}>
         <planeGeometry args={[400, 400, 400, 400]} />
       </mesh>
       <mesh position={[0, -1.2, 0]} rotation={[-Math.PI / 2, 0, 0]}>

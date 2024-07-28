@@ -4,7 +4,7 @@ import { Object3D } from 'three';
 // import Fog from '../../../../../elements/Fog/Fog';
 import Floor from '../../../Floor/Floor';
 import Lights from '../../../Lights/Lights';
-// import Water from '../../../Water/Water';
+import Water from '../../../Water/Water';
 
 // import OldKorrigan from '../../../npcs/OldKorrigan';
 // import BeachBall from '../../../props/BeachBall/BeachBall';
@@ -84,7 +84,7 @@ const GameContents = ({ localPlayerRef }: GameContentsProps) => {
     <>
       <Lights />
       {/* <Fog /> */}
-      {/* <Water /> */}
+      <Water />
       <Suspense fallback={null}>
         <Floor />
       </Suspense>

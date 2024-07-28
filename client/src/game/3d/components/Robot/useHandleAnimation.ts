@@ -1,21 +1,32 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { AnimationAction, AnimationMixer } from 'three';
 
-// eslint-disable-next-line import/prefer-default-export
-export const useHandleAnimation = (actions, mixer, moving, jumping) => {
+interface PlayAnimationProps {
+  delay?: number;
+  playOnce?: boolean;
+  onEnd?: (() => void) | null;
+}
+
+export const useHandleAnimation = (
+  actions: AnimationAction[],
+  mixer: AnimationMixer,
+  moving: boolean,
+  jumping: boolean
+) => {
   const currentAnimationRef = useRef({
-    key: null,
-    animation: null,
+    key: null as string | null,
+    animation: null as AnimationAction | null,
     finished: false,
-    delayTimer: null,
+    delayTimer: null as number | null,
   });
 
   const playAnimation = useCallback(
     (
-      animation,
-      fadeInDuration,
-      fadeDuration,
-      key,
-      { delay = 0, playOnce = false, onEnd = null } = {},
+      animation: AnimationAction,
+      fadeInDuration: number,
+      fadeDuration: number,
+      key?: string,
+      { delay = 0, playOnce = false, onEnd = null }: PlayAnimationProps = {}
     ) => {
       const currentAnimation = currentAnimationRef.current;
       if (currentAnimation.animation) {
@@ -29,7 +40,7 @@ export const useHandleAnimation = (actions, mixer, moving, jumping) => {
         fadeInDuration = 0;
       }
 
-      if (!animation) return;
+      if (!animation || !key) return;
 
       if (currentAnimation.delayTimer) {
         clearTimeout(currentAnimation.delayTimer);
@@ -43,10 +54,7 @@ export const useHandleAnimation = (actions, mixer, moving, jumping) => {
         return;
       }
 
-      animation
-        .reset()
-        .setEffectiveWeight(1)
-        .fadeIn(fadeInDuration);
+      animation.reset().setEffectiveWeight(1).fadeIn(fadeInDuration);
 
       // eslint-disable-next-line no-param-reassign
       animation.repetitions = playOnce ? 1 : Infinity;
@@ -57,7 +65,7 @@ export const useHandleAnimation = (actions, mixer, moving, jumping) => {
       currentAnimation.finished = false;
 
       if (onEnd) {
-        const listener = mixer.addEventListener('finished', e => {
+        const listener = mixer.addEventListener('finished', (e) => {
           if (e.action === animation) {
             onEnd();
             mixer.removeEventListener('finished', listener);
@@ -65,7 +73,7 @@ export const useHandleAnimation = (actions, mixer, moving, jumping) => {
         });
       }
     },
-    [currentAnimationRef, mixer],
+    [currentAnimationRef, mixer]
   );
 
   useEffect(() => {
@@ -76,7 +84,7 @@ export const useHandleAnimation = (actions, mixer, moving, jumping) => {
       if (moving) {
         playAnimation(actions.Running, 250 / 1000, 250 / 1000, 'walk');
       } else {
-        playAnimation(null);
+        playAnimation(null, 0, 0);
         // playAnimation(actions.Standing, 250 / 1000, 250 / 1000, 'standing', { playOnce: true });
         playAnimation(actions.Idle, 250 / 1000, 250 / 1000, 'idle', { delay: 5000 });
       }

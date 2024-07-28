@@ -41,7 +41,7 @@ const calculateRawInput = () => {
 };
 
 interface InputsHandlerProps {
-  children: JSX.Element;
+  children: JSX.Element[];
 }
 
 const InputsHandler = ({ children }: InputsHandlerProps) => {

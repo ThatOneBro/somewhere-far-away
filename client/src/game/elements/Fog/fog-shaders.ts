@@ -52,4 +52,4 @@ const fogParsFrag = `
 #endif
 `;
 
-export { fogParsVert, fogVert, fogParsFrag, fogFrag };
+export { fogFrag, fogParsFrag, fogParsVert, fogVert };
