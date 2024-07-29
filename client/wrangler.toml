@@ -1,0 +1,4 @@
+name = "somewhere-far-away"
+compatibility_date = "2023-11-09"
+env = {}
+pages_build_output_dir = "./dist"

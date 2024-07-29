@@ -49,7 +49,6 @@ const GameCanvas = () => {
   // const snapshotRef = useRef(useStore.getState().snapshot);
 
   // const { updateSnapshot } = useStore(useCallback((state) => ({ updateSnapshot: state.updateSnapshot }), []));
-  const localPlayerRef = useRef(null);
 
   // useEffect(
   //   () =>
@@ -68,8 +67,19 @@ const GameCanvas = () => {
 
   return (
     <>
-      <div style={{ zIndex: 999999, position: 'fixed', right: '2px', bottom: '50px', width: '80px' }}>
-        <div style={{ position: 'relative', width: '100%' }} ref={statsParentRef} />
+      <div
+        style={{
+          zIndex: 999999,
+          position: 'fixed',
+          right: '2px',
+          bottom: '50px',
+          width: '80px',
+        }}
+      >
+        <div
+          style={{ position: 'relative', width: '100%' }}
+          ref={statsParentRef}
+        />
       </div>
       <StyledContainer>
         {/* <TouchHandler> */}
@@ -91,7 +101,11 @@ const GameCanvas = () => {
             <SkyBox />
           </Suspense>
           <Suspense fallback={null}>
-            <Environment background={false} path="/textures/hdr/" files="pool.jpg" />
+            <Environment
+              background={false}
+              path="/textures/hdr/"
+              files="pool.jpg"
+            />
           </Suspense>
           <Suspense fallback={null}>
             <group position={[0, 0, 0]}>
@@ -105,7 +119,7 @@ const GameCanvas = () => {
           </Suspense>
           <CameraProvider>
             <InputsHandler>
-              <GameContents localPlayerRef={localPlayerRef} />
+              <GameContents />
               <Player />
               {/* {localPlayer &&
                 currentPlayers
