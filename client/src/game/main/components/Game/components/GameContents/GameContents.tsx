@@ -1,4 +1,12 @@
-import { MutableRefObject, Suspense, useCallback, useMemo, useRef, useState } from 'react';
+import {
+  MutableRefObject,
+  Suspense,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Object3D } from 'three';
 
 // import Fog from '../../../../../elements/Fog/Fog';
@@ -16,10 +24,11 @@ import Water from '../../../Water/Water';
 import Tower from '../../../props/Tower/Tower';
 // import Entities from '../Entities/Entities';
 
+import { CameraContext } from '../../../../../elements/camera/components/CameraProvider/CameraContext';
 import {
   useSetCameraAngle,
   useSetCameraFollowTarget,
-} from '../../../../../elements/camera/components/CameraProvider/CameraProvider';
+} from '../../../../../elements/camera/components/CameraProvider/hooks';
 
 // import StoneFormation from '../../../props/StoneFormation/StoneFormation';
 
@@ -29,11 +38,7 @@ const CAMERA_ANGLE_CONFIG = {
   tower: 'lowWide',
 } as const;
 
-interface GameContentsProps {
-  localPlayerRef: MutableRefObject<Object3D | null>;
-}
-
-const GameContents = ({ localPlayerRef }: GameContentsProps) => {
+const GameContents = () => {
   const [currentTarget, setCurrentTarget] = useState('player');
 
   const twitchRef = useRef<Object3D>(null) as MutableRefObject<Object3D>;
@@ -45,6 +50,8 @@ const GameContents = ({ localPlayerRef }: GameContentsProps) => {
   const portrait1Ref = useRef<Object3D>(null) as MutableRefObject<Object3D>;
   const portrait2Ref = useRef<Object3D>(null) as MutableRefObject<Object3D>;
   const portrait3Ref = useRef<Object3D>(null) as MutableRefObject<Object3D>;
+
+  const { localPlayerRef } = useContext(CameraContext);
 
   const cameraTargets = useMemo(
     () => ({
@@ -62,8 +69,15 @@ const GameContents = ({ localPlayerRef }: GameContentsProps) => {
     [localPlayerRef]
   );
 
-  useSetCameraAngle(CAMERA_ANGLE_CONFIG[currentTarget as keyof typeof CAMERA_ANGLE_CONFIG] || 'head-on');
-  useSetCameraFollowTarget(currentTarget ? cameraTargets[currentTarget as keyof typeof cameraTargets] || null : null);
+  useSetCameraAngle(
+    CAMERA_ANGLE_CONFIG[currentTarget as keyof typeof CAMERA_ANGLE_CONFIG] ||
+      'head-on'
+  );
+  useSetCameraFollowTarget(
+    currentTarget
+      ? cameraTargets[currentTarget as keyof typeof cameraTargets] || null
+      : null
+  );
 
   // const toggleFocusShip = useCallback(() => {
   //   setCurrentTarget(currentTarget === 'ship' ? 'player' : 'ship');
@@ -94,7 +108,11 @@ const GameContents = ({ localPlayerRef }: GameContentsProps) => {
         rotation={[0, degToRad(33), 0]}
         toggleFocusShip={toggleFocusShip}
       /> */}
-      <Tower ref={towerRef} position={[-2, -1, -14]} toggleFocusTower={toggleFocusTower} />
+      <Tower
+        ref={towerRef}
+        position={[-2, -1, -14]}
+        toggleFocusTower={toggleFocusTower}
+      />
       {/* <Suspense fallback={null}>
         <group position={[-30, 3, 0]}>
           <Display

@@ -1,7 +1,9 @@
 import { Html } from '@react-three/drei';
-import { Suspense } from 'react';
+import { MutableRefObject, Suspense, useRef } from 'react';
 // import EmoteDisplayer from '../../../utils/components/EmoteDisplayer';
+import { Group } from 'three';
 import Robot from '../../../3d/components/Robot/RobotExpressive';
+import { useSetLocalPlayerRef } from '../../../elements/camera/components/CameraProvider/hooks';
 // import ProfileEditor from '../../../../components/ProfileModal/ProfileEditor';
 
 // const PlayerEditor = ({ id, playerData, updatePreview }) => {
@@ -50,6 +52,7 @@ import Robot from '../../../3d/components/Robot/RobotExpressive';
 // };
 
 const Player = () => {
+  const playerRef = useRef<Group>(null);
   // const playerColor = useMemo(() => {
   //   return playerEditing && preview ? preview.color : playerData.appearance.color;
   // }, [playerEditing, preview, playerData]);
@@ -62,6 +65,8 @@ const Player = () => {
   //   return playerEditing && preview ? preview.wide : playerData.appearance.wide;
   // }, [playerEditing, preview, playerData]);
 
+  useSetLocalPlayerRef(playerRef);
+
   const playerData = {
     user: {
       username: 'john',
@@ -71,7 +76,7 @@ const Player = () => {
   } as const;
 
   return (
-    <group>
+    <group ref={playerRef as MutableRefObject<Group>}>
       {playerData && (
         <group position={[0, 3.25, 0]}>
           <Html center>
@@ -152,7 +157,7 @@ const Player = () => {
             color={playerData.color}
             moving={false}
             jumping={false}
-            // scale={[0.3, 0.3, 0.3]}
+            scale={[0.3, 0.3, 0.3]}
             // hat={playerHat}
           />
         </Suspense>
